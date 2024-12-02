@@ -1,0 +1,90 @@
+[package]
+name = "2023"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+memoize = "0.4.1"
+num = "0.4.1"
+
+[[bin]]
+name = "day1"
+path = "day1/main.rs"
+
+[[bin]]
+name = "day2"
+path = "day2/main.rs"
+
+[[bin]]
+name = "day3"
+path = "day3/main.rs"
+
+[[bin]]
+name = "day4"
+path = "day4/main.rs"
+
+[[bin]]
+name = "day5"
+path = "day5/main.rs"
+
+[[bin]]
+name = "day6"
+path = "day6/main.rs"
+
+[[bin]]
+name = "day7"
+path = "day7/main.rs"
+
+[[bin]]
+name = "day8"
+path = "day8/main.rs"
+
+[[bin]]
+name = "day9"
+path = "day9/main.rs"
+
+[[bin]]
+name = "day10"
+path = "day10/main.rs"
+
+[[bin]]
+name = "day11"
+path = "day11/main.rs"
+
+[[bin]]
+name = "day12"
+path = "day12/main.rs"
+
+[[bin]]
+name = "day13"
+path = "day13/main.rs"
+
+[[bin]]
+name = "day14"
+path = "day14/main.rs"
+
+[[bin]]
+name = "day15"
+path = "day15/main.rs"
+
+[[bin]]
+name = "day16"
+path = "day16/main.rs"
+
+[[bin]]
+name = "day17"
+path = "day17/main.rs"
+
+[[bin]]
+name = "day18"
+path = "day18/main.rs"
+
+[[bin]]
+name = "day19"
+path = "day19/main.rs"
+
+[[bin]]
+name = "day20"
+path = "day20/main.rs"
