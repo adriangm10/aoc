@@ -12,5 +12,19 @@ let read_lines file_name =
 
   loop []
 
-let split_on c s =
-   String.split_on_char c s |> List.filter (fun s -> s <> "")
+let read_all file =
+  let ic = open_in file in
+
+  let rec loop acc =
+    try
+      let line = input_line ic in
+      loop (acc ^ line)
+    with End_of_file ->
+      close_in ic;
+      acc
+  in
+
+  loop ""
+
+let split_on c s = String.split_on_char c s |> List.filter (fun s -> s <> "")
+let is_digit = function '0' .. '9' -> true | _ -> false

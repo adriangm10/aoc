@@ -1,4 +1,4 @@
 (executables
- (public_names day1 day2)
- (names day01 day02)
+ (public_names day1 day2 day3)
+ (names day01 day02 day03)
  (libraries utils))
