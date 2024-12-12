@@ -29,5 +29,5 @@ let () =
   in
 
   let res1 = blink rocks 25 in
-  let res2 = blink rocks 100 in
+  let res2 = blink rocks 75 in
   Printf.printf "Part1: %d\nPart2: %d\n" res1 res2
