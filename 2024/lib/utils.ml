@@ -26,5 +26,46 @@ let read_all file =
 
   loop ""
 
+let read_file file =
+  let ic = open_in file in
+
+  let rec loop acc =
+    try
+      let line = input_line ic in
+      loop (acc ^ line ^ "\n")
+    with End_of_file ->
+      close_in ic;
+      acc
+  in
+
+  loop ""
+
 let split_on c s = String.split_on_char c s |> List.filter (fun s -> s <> "")
 let is_digit = function '0' .. '9' -> true | _ -> false
+
+let split_string ~pattern str =
+  let n = String.length str in
+  let pat_len = String.length pattern in
+
+  let rec match_pattern i j =
+    if j >= pat_len then true
+    else if i + j >= n || str.[i + j] <> pattern.[j] then false
+    else match_pattern i (j + 1)
+  in
+
+  let rec aux i acc act =
+    if i >= n then List.rev (act :: acc)
+    else if match_pattern i 0 then aux (i + pat_len) (act :: acc) ""
+    else aux (i + 1) acc (act ^ String.make 1 str.[i])
+  in
+
+  aux 0 [] ""
+
+let print_matrix ~fin m =
+  Array.iter
+    (fun row ->
+      Array.iter (fun elem -> Printf.printf "%d " elem) row;
+      Printf.printf "\n")
+    m;
+
+  print_string fin
