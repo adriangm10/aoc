@@ -69,3 +69,15 @@ let print_matrix ~fin m =
     m;
 
   print_string fin
+
+let numbers_in_line char_seq =
+  let rec aux acc act char_seq =
+    match char_seq () with
+    | Seq.Nil -> int_of_string act :: acc
+    | Seq.Cons (c, seq) when is_digit c || (c = '-' && act = "") ->
+        aux acc (act ^ String.make 1 c) seq
+    | Seq.Cons (_, seq) when act = "" -> aux acc act seq
+    | Seq.Cons (_, seq) -> aux (int_of_string act :: acc) "" seq
+  in
+
+  List.rev (aux [] "" char_seq)
