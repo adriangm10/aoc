@@ -34,7 +34,7 @@ let () =
   let robots =
     Utils.read_lines "inputs/input_14.txt"
     |> List.filter_map (fun l ->
-           match String.to_seq l |> Utils.numbers_in_line with
+           match Utils.numbers_in_string l with
            | [ x; y; dx; dy ] -> Some ((x, y), (dx, dy))
            | _ -> None)
   in

@@ -70,7 +70,7 @@ let print_matrix ~fin m =
 
   print_string fin
 
-let numbers_in_line char_seq =
+let numbers_in_string s =
   let rec aux acc act char_seq =
     match char_seq () with
     | Seq.Nil -> int_of_string act :: acc
@@ -80,4 +80,4 @@ let numbers_in_line char_seq =
     | Seq.Cons (_, seq) -> aux (int_of_string act :: acc) "" seq
   in
 
-  List.rev (aux [] "" char_seq)
+  List.rev (aux [] "" (String.to_seq s))
