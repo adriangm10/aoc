@@ -73,10 +73,11 @@ let print_matrix ~fin m =
 let numbers_in_string s =
   let rec aux acc act char_seq =
     match char_seq () with
-    | Seq.Nil -> int_of_string act :: acc
+    | Seq.Nil ->
+        if act <> "" && act <> "-" then int_of_string act :: acc else acc
     | Seq.Cons (c, seq) when is_digit c || (c = '-' && act = "") ->
         aux acc (act ^ String.make 1 c) seq
-    | Seq.Cons (_, seq) when act = "" -> aux acc act seq
+    | Seq.Cons (_, seq) when act = "" || act = "-" -> aux acc "" seq
     | Seq.Cons (_, seq) -> aux (int_of_string act :: acc) "" seq
   in
 
