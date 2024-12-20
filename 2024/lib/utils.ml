@@ -82,3 +82,11 @@ let numbers_in_string s =
   in
 
   List.rev (aux [] "" (String.to_seq s))
+
+let find_pos map c =
+  let rec aux row =
+    let idx = Array.find_index (fun x -> x = c) map.(row) in
+    match idx with Some i -> (row, i) | None -> aux (row + 1)
+  in
+
+  aux 0
