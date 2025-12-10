@@ -17,31 +17,28 @@ let fresh_ids ranges =
     match
       RangeSet.find_first_opt
         (fun (r1, r2) ->
-          (r1 <= x1 && x1 <= r2 && x2 > r2) (* r1 <= x1 <= r2 and x2 > r2 *)
-          || (r1 <= x2 && x2 <= r2 && x1 < r1) (* r1 <= x2 <= r2 and x1 < r1 *)
-          || (r1 <= x2 && x2 <= r2 && r1 <= x1 && x1 <= r2))
-          (* (x1, x2) inside (r1, r2) *)
+          (r1 <= x1 && x2 <= r2) (* [x1, x2] in [r1, r2] *)
+          || (x1 <= r1 && r2 <= x2) (* [r1, r2] in [x1, x2] *)
+          || (r1 <= x1 && x1 <= r2) (* x1 in [r1, r2] *)
+          || (r1 <= x2 && x2 <= r2)) (* x2 in [r1, r2]*)
         ranges
     with
     | Some (r1, r2) ->
         let ranges = RangeSet.remove (r1, r2) ranges in
-        if r1 <= x1 && x1 <= r2 && x2 > r2 then RangeSet.add (r1, x2) ranges
-        else if r1 <= x2 && x2 <= r2 && x1 < r1 then
-          RangeSet.add (x1, r2) ranges
-        else ranges
+        if r1 <= x1 && x2 <= r2 then RangeSet.add (r1, r2) ranges
+        else if x1 <= r1 && r2 <= x2 then RangeSet.add (x1, x2) ranges
+        else if r1 <= x1 && x1 <= r2 then RangeSet.add (r1, x2) ranges
+        else RangeSet.add (x1, r2) ranges
     | None -> RangeSet.add (x1, x2) ranges
   in
 
-  let rec unite_ranges ranges = function
+  let rec merge_ranges ranges = function
     | [] -> ranges
-    | (x1, x2) :: t -> unite_ranges (insert_range (x1, x2) ranges) t
+    | (x1, x2) :: t -> merge_ranges (insert_range (x1, x2) ranges) t
   in
 
-  let curr_ranges = ref (unite_ranges RangeSet.empty ranges) in
-  for _ = 1 to 20 do
-    curr_ranges := unite_ranges RangeSet.empty (RangeSet.to_list !curr_ranges)
-  done;
-  !curr_ranges
+  let curr_ranges = merge_ranges RangeSet.empty ranges in
+  merge_ranges RangeSet.empty (RangeSet.to_list curr_ranges)
 
 let () =
   let ranges, ids =
@@ -58,7 +55,6 @@ let () =
 
   let res1 = List.filter (check_id ranges) ids in
   let res2 = fresh_ids ranges in
-  RangeSet.iter (fun (x1, x2) -> Printf.printf "(%d, %d),\n" x1 x2) res2;
 
   Printf.printf "Part1: %d\nPart2: %d\n" (List.length res1)
     (RangeSet.fold (fun (x1, x2) a -> a + (x2 - x1 + 1)) res2 0)
